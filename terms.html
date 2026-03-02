@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>terms & conditions</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(120deg, #f6d365, #fda085);
+  color: white;
+  text-align: center;
+  padding: 40px;
+}
+
+.box {
+  background: rgba(255,255,255,0.2);
+  padding: 30px;
+  max-width: 600px;
+  margin: auto;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+}
+
+button {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  background: white;
+  color: #fda085;
+  font-weight: bold;
+}
+
+#loadingText {
+  margin-top: 25px;
+  font-size: 1.2em;
+  display: none;
+  color: black;
+  font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h1>Terms & Conditions 💛</h1>
+
+<p>By clicking "I Agree", you legally confirm:</p>
+
+<p>• You will make me laugh with your jokes (even the bad ones).</p>
+<p>• You agree to hold my hand at least 73% of the day.</p>
+<p>• You will take cute photos of me without complaining.</p>
+<p>• If I say "look how pretty", you must agree immediately.</p>
+<p>• Hoodie surrender is mandatory if temperature drops.</p>
+<p>• This trip is emotionally binding.</p>
+
+<button id="agreeBtn" onclick="startLoading()">I Agree 💛</button>
+
+<div id="loadingText"></div>
+</div>
+
+<script>
+const messages = [
+  "verifying boyfriend credentials...",
+  "checking joke quality database...",
+  "analyzing cuddle compliance rate...",
+  "confirming hand-holding commitment...",
+  "contacting girlfriend headquarters..."
+];
+
+function startLoading() {
+  document.getElementById("agreeBtn").style.display = "none";
+  const loading = document.getElementById("loadingText");
+  loading.style.display = "block";
+
+  let i = 0;
+
+  const interval = setInterval(() => {
+    loading.innerText = messages[i];
+    i++;
+    if (i >= messages.length) {
+      clearInterval(interval);
+
+      setTimeout(() => {
+        loading.innerText = "CONGRATULATIONS MARTY SUNSHINE ☀️🏆";
+      }, 800);
+
+      setTimeout(() => {
+        loading.innerText = "you just secured an amazing day with a baddie.";
+      }, 2000);
+
+      setTimeout(() => {
+        loading.innerText = "sounds like a good day to be my miláček.";
+      }, 3500);
+
+      setTimeout(() => {
+        loading.innerText = "prepare accordingly.";
+      }, 4000);
+
+      setTimeout(() => {
+        window.location.href = "itinerary.html";
+      }, 5000);
+    }
+  }, 1000);
+}
+</script>
+
+</body>
+</html>

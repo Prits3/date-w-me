@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>serious question.</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(120deg, #f6d365, #fda085);
+  background-size: 200% 200%;
+  animation: bgMove 10s ease infinite;
+  overflow: hidden;
+  text-align: center;
+}
+
+@keyframes bgMove {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
+h1 {
+  font-size: 2.3em;
+  color: white;
+  max-width: 600px;
+}
+
+button {
+  padding: 15px 35px;
+  font-size: 18px;
+  margin: 15px;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+#yesBtn {
+  background: white;
+  color: #fda085;
+  font-weight: bold;
+}
+
+#yesBtn:hover {
+  transform: scale(1.1);
+}
+
+#noBtn {
+  position: absolute;
+  background: #ff6b6b;
+  color: white;
+}
+
+#loading {
+  display: none;
+  font-size: 1.3em;
+  color: white;
+  margin-top: 20px;
+}
+</style>
+</head>
+
+<body onclick="startMusic()">
+
+<h1 id="question">will you go on a chaotic soft day trip with me? 💛</h1>
+
+<button id="yesBtn" onclick="yesClicked()">yes obviously</button>
+<button id="noBtn" onmouseover="moveButton()">no</button>
+
+<div id="loading">calculating boyfriend compliance...</div>
+
+<audio id="bgMusic" loop>
+  <source src="yellow.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let noCount = 0;
+
+function startMusic() {
+  document.getElementById("bgMusic").play();
+}
+
+function moveButton() {
+  const btn = document.getElementById("noBtn");
+  btn.style.top = Math.random() * window.innerHeight + "px";
+  btn.style.left = Math.random() * window.innerWidth + "px";
+
+  noCount++;
+
+  if (noCount == 3) {
+    document.getElementById("question").innerText = "be serious.";
+  }
+  if (noCount == 5) {
+    document.getElementById("question").innerText = "this is not optional.";
+  }
+  if (noCount == 7) {
+    document.getElementById("question").innerText = "you're embarrassing yourself.";
+  }
+}
+
+function yesClicked() {
+  document.getElementById("loading").style.display = "block";
+  setTimeout(function(){
+    window.location.href = "terms.html";
+  }, 2000);
+}
+</script>
+
+</body>
+</html>
