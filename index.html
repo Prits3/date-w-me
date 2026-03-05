@@ -64,10 +64,17 @@ button {
   color: white;
   margin-top: 20px;
 }
+
+.music-status {
+  margin-top: 10px;
+  color: #fff7e6;
+  font-size: 0.95em;
+  min-height: 1.2em;
+}
 </style>
 </head>
 
-<body onclick="startMusic()">
+<body>
 
 <h1 id="question">will you go on a chaotic soft day trip with me? 💛</h1>
 
@@ -75,16 +82,38 @@ button {
 <button id="noBtn" onmouseover="moveButton()">no</button>
 
 <div id="loading">calculating boyfriend compliance...</div>
+<div id="musicStatus" class="music-status"></div>
 
-<audio id="bgMusic" loop>
+<audio id="bgMusic" loop preload="auto">
   <source src="yellow.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 let noCount = 0;
+const MUSIC_ENABLED_KEY = "trip_music_enabled";
+const audio = document.getElementById("bgMusic");
+const musicStatus = document.getElementById("musicStatus");
 
 function startMusic() {
-  document.getElementById("bgMusic").play();
+  const playPromise = audio.play();
+  if (playPromise && typeof playPromise.then === "function") {
+    playPromise.then(() => {
+      localStorage.setItem(MUSIC_ENABLED_KEY, "1");
+      musicStatus.innerText = "";
+    }).catch(() => {
+      musicStatus.innerText = "Tap once to enable music.";
+    });
+  }
+}
+
+audio.addEventListener("error", () => {
+  musicStatus.innerText = "Music file is missing or invalid (yellow.mp3).";
+});
+
+document.addEventListener("click", startMusic, { once: true });
+
+if (localStorage.getItem(MUSIC_ENABLED_KEY) === "1") {
+  startMusic();
 }
 
 function moveButton() {
@@ -106,6 +135,7 @@ function moveButton() {
 }
 
 function yesClicked() {
+  startMusic();
   document.getElementById("loading").style.display = "block";
   setTimeout(function(){
     window.location.href = "terms.html";

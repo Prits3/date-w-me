@@ -42,6 +42,13 @@ button {
   color: black;
   font-weight: bold;
 }
+
+.music-status {
+  margin-top: 12px;
+  color: #fff7e6;
+  font-size: 0.95em;
+  min-height: 1.2em;
+}
 </style>
 </head>
 
@@ -62,9 +69,40 @@ button {
 <button id="agreeBtn" onclick="startLoading()">I Agree 💛</button>
 
 <div id="loadingText"></div>
+<div id="musicStatus" class="music-status"></div>
 </div>
 
+<audio id="bgMusic" loop preload="auto">
+  <source src="yellow.mp3" type="audio/mpeg">
+</audio>
+
 <script>
+const MUSIC_ENABLED_KEY = "trip_music_enabled";
+const audio = document.getElementById("bgMusic");
+const musicStatus = document.getElementById("musicStatus");
+
+function startMusic() {
+  const playPromise = audio.play();
+  if (playPromise && typeof playPromise.then === "function") {
+    playPromise.then(() => {
+      localStorage.setItem(MUSIC_ENABLED_KEY, "1");
+      musicStatus.innerText = "";
+    }).catch(() => {
+      musicStatus.innerText = "Tap once to enable music.";
+    });
+  }
+}
+
+audio.addEventListener("error", () => {
+  musicStatus.innerText = "Music file is missing or invalid (yellow.mp3).";
+});
+
+document.addEventListener("click", startMusic, { once: true });
+
+if (localStorage.getItem(MUSIC_ENABLED_KEY) === "1") {
+  startMusic();
+}
+
 const messages = [
   "verifying boyfriend credentials...",
   "checking joke quality database...",
@@ -74,6 +112,7 @@ const messages = [
 ];
 
 function startLoading() {
+  startMusic();
   document.getElementById("agreeBtn").style.display = "none";
   const loading = document.getElementById("loadingText");
   loading.style.display = "block";
@@ -100,7 +139,7 @@ function startLoading() {
 
       setTimeout(() => {
         loading.innerText = "prepare accordingly.";
-      }, 4000);
+      }, 5000);
 
       setTimeout(() => {
         window.location.href = "itinerary.html";

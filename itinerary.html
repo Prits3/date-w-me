@@ -26,6 +26,13 @@ body {
 h1 {
   font-size: 2.5em;
 }
+
+.music-status {
+  margin-top: 10px;
+  color: #fff7e6;
+  font-size: 0.95em;
+  min-height: 1.2em;
+}
 </style>
 </head>
 
@@ -35,7 +42,7 @@ h1 {
 
 <div class="section">
   <h2>🌅 morning</h2>
-  <p>explore the old town. main character energy activated.</p>
+  <p>explore the old town. while cracking jokes and talking bs (I love hearing it).</p>
 </div>
 
 <div class="section">
@@ -45,15 +52,48 @@ h1 {
 
 <div class="section">
   <h2>🌲 afternoon</h2>
-  <p>soft nature walk. dramatic skyline stare. hand holding mandatory.</p>
+  <p> Cute hike. Watching the city. hand holding mandatory and hearing me yap ofc</p>
 </div>
 
 <div class="section">
   <h2>🌇 evening</h2>
-  <p>sunset views. cozy dinner. you carry my bag like a gentleman.</p>
+  <p>Chasing sunset w cozy dinner & great beer. You have to carry my bag like a gentleman afterwards.</p>
 </div>
 
-<h2>pack a sweater. i'm stealing you. 💛</h2>
+<h2>So wear your best clothes, pack a sweater. I'm stealing you on March 6,2026 💛</h2>
+<div id="musicStatus" class="music-status"></div>
+
+<audio id="bgMusic" loop preload="auto">
+  <source src="yellow.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const MUSIC_ENABLED_KEY = "trip_music_enabled";
+const audio = document.getElementById("bgMusic");
+const musicStatus = document.getElementById("musicStatus");
+
+function startMusic() {
+  const playPromise = audio.play();
+  if (playPromise && typeof playPromise.then === "function") {
+    playPromise.then(() => {
+      localStorage.setItem(MUSIC_ENABLED_KEY, "1");
+      musicStatus.innerText = "";
+    }).catch(() => {
+      musicStatus.innerText = "Tap once to enable music.";
+    });
+  }
+}
+
+audio.addEventListener("error", () => {
+  musicStatus.innerText = "Music file is missing or invalid (yellow.mp3).";
+});
+
+document.addEventListener("click", startMusic, { once: true });
+
+if (localStorage.getItem(MUSIC_ENABLED_KEY) === "1") {
+  startMusic();
+}
+</script>
 
 </body>
 </html>
