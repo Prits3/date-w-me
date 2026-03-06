@@ -90,31 +90,25 @@ button {
 
 <script>
 let noCount = 0;
-const MUSIC_ENABLED_KEY = "trip_music_enabled";
-const audio = document.getElementById("bgMusic");
+const music = document.getElementById("bgMusic");
 const musicStatus = document.getElementById("musicStatus");
 
-function startMusic() {
-  const playPromise = audio.play();
-  if (playPromise && typeof playPromise.then === "function") {
-    playPromise.then(() => {
-      localStorage.setItem(MUSIC_ENABLED_KEY, "1");
-      musicStatus.innerText = "";
-    }).catch(() => {
+function tryPlayMusic() {
+  music.volume = 0.6;
+  const playPromise = music.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {
       musicStatus.innerText = "Tap once to enable music.";
     });
   }
 }
 
-audio.addEventListener("error", () => {
+music.addEventListener("error", () => {
   musicStatus.innerText = "Music file is missing or invalid (yellow.mp3).";
 });
 
-document.addEventListener("click", startMusic, { once: true });
-
-if (localStorage.getItem(MUSIC_ENABLED_KEY) === "1") {
-  startMusic();
-}
+window.addEventListener("click", tryPlayMusic, { once: true });
+window.addEventListener("touchstart", tryPlayMusic, { once: true });
 
 function moveButton() {
   const btn = document.getElementById("noBtn");
@@ -135,7 +129,7 @@ function moveButton() {
 }
 
 function yesClicked() {
-  startMusic();
+  tryPlayMusic();
   document.getElementById("loading").style.display = "block";
   setTimeout(function(){
     window.location.href = "terms.html";
